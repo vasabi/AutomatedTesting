@@ -21,38 +21,42 @@ using Gallio.Runtime;
 
 public class MyTestCaseBase
 {
+    protected IWebDriver Driver;
+
     public MyTestCaseBase()
     {
+        
     }
 
-    public IWebDriver driver;
-
     #region Set up Chrome Driver
-    public void SetupChrome()
+    public MyTestCaseBase SetupChrome()
     {
-        driver = new ChromeDriver();
+        Driver = new ChromeDriver();
+        return this;
     }
     #endregion
 
     #region Set up Firefox Driver
-    public void SetupFirefox()
+    public MyTestCaseBase SetupFirefox()
     {
-        driver = new FirefoxDriver();
+        Driver = new FirefoxDriver();
+        return this;
     }
     #endregion
 
     #region Set up IE Driver
-    public void SetupIEDriver()
+    public MyTestCaseBase SetupIEDriver()
     {
-        driver = new InternetExplorerDriver();
+        Driver = new InternetExplorerDriver();
+        return this;
     }
     #endregion
 
     #region Exit
     public void Exit()
     {
-        driver.Close();
-        driver.Quit();
+        Driver.Close();
+        Driver.Quit();
     }
     #endregion
 
@@ -66,7 +70,7 @@ public class MyTestCaseBase
     #region FindElementByName
     public IWebElement FindElementByName(String value)
     {
-        IWebElement elementOnPage = driver.FindElement(By.Name(value));
+        IWebElement elementOnPage = Driver.FindElement(By.Name(value));
         return elementOnPage;
     }
     #endregion
@@ -74,7 +78,7 @@ public class MyTestCaseBase
     #region FindElementByXPath
     public IWebElement FindElementByXPath(String value)
     {
-        IWebElement elementOnPage = driver.FindElement(By.XPath(value));
+        IWebElement elementOnPage = Driver.FindElement(By.XPath(value));
         return elementOnPage;
     }
     #endregion
@@ -82,7 +86,7 @@ public class MyTestCaseBase
     #region FindElementById
     public IWebElement FindElementById(String value)
     {
-        IWebElement elementOnPage = driver.FindElement(By.Id(value));
+        IWebElement elementOnPage = Driver.FindElement(By.Id(value));
         return elementOnPage;
     }
     #endregion
@@ -90,7 +94,7 @@ public class MyTestCaseBase
     #region FindElementByLinkText
     public IWebElement FindElementByLinkText(String value)
     {
-        IWebElement elementOnPage = driver.FindElement(By.LinkText(value));
+        IWebElement elementOnPage = Driver.FindElement(By.LinkText(value));
         return elementOnPage;
     }
     #endregion

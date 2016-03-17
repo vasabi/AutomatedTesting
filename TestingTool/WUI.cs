@@ -23,14 +23,14 @@ namespace TestingTool
 {
     public class WUICreateNewUser : MyTestCaseBase
     {
+       
         #region Test execution
         public override TestResult RunTest()
         {
-            SetupChrome();
             string url = "http://10.91.5.35:8082/WebInterfaceApp/";
             try
             {
-                driver.Navigate().GoToUrl(url);
+                Driver.Navigate().GoToUrl(url);
                 FindElementByName("j_username").SendKeys("selenium");
                 FindElementByName("j_password").SendKeys("poiskitpoiskit");
                 FindElementByName("loginButton").Click();

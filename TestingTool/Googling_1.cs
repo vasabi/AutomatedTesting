@@ -23,16 +23,16 @@ namespace TestingTool
 {
     public class Googling_1 : MyTestCaseBase
     {
+        
         #region Test execution
         public override TestResult RunTest()
         {
-            SetupChrome();
             string url = "http://google.com";
             string nameElement = "q";
             try
             {
-                driver.Navigate().GoToUrl(url);
-                IWebElement queryBox = driver.FindElement(By.Name(nameElement));
+                Driver.Navigate().GoToUrl(url);
+                IWebElement queryBox = Driver.FindElement(By.Name(nameElement));
                 queryBox.SendKeys("hello world");
                 queryBox.Submit();
 
