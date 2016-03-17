@@ -8,6 +8,8 @@ using NUnit.Framework;
 using CookComputing.XmlRpc;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using Meyn.TestLink.NUnitExport;
@@ -19,67 +21,12 @@ using Gallio.Runtime;
 
 namespace TestingTool
 {
-    public class WUICreateNewUser
+    public class WUICreateNewUser : MyTestCaseBase
     {
-        IWebDriver driver;
-
-        #region Set up
-        public void Setup()
-        {
-            driver = new ChromeDriver();
-        }
-        #endregion
-
-        #region Exit
-        public void Exit()
-        {
-            driver.Quit();
-        }
-        #endregion
-
-        #region Wait
-        public void Wait(Int32 value)
-        {
-            System.Threading.Thread.Sleep(value);
-        }
-        #endregion
-
-        #region FindElementByName
-        public IWebElement FindElementByName(String value)
-        {
-            IWebElement elementOnPage = driver.FindElement(By.Name(value));
-            return elementOnPage;
-        }
-        #endregion
-
-        #region FindElementById
-        public IWebElement FindElementById(String value)
-        {
-            IWebElement elementOnPage = driver.FindElement(By.Id(value));
-            return elementOnPage;
-        }
-        #endregion
-
-        #region FindElementByLinkText
-        public IWebElement FindElementByLinkText(String value)
-        {
-            IWebElement elementOnPage = driver.FindElement(By.LinkText(value));
-            return elementOnPage;
-        }
-        #endregion
-
-        #region SelectElement
-        public SelectElement SelectElementBySmth(IWebElement value)
-        {
-            SelectElement select = new SelectElement(value);
-            var options = select.Options;
-            return select;
-        }
-        #endregion
-
         #region Test execution
-        public TestResult RunTest()
+        public override TestResult RunTest()
         {
+            SetupChrome();
             string url = "http://10.91.5.35:8082/WebInterfaceApp/";
             try
             {
@@ -91,51 +38,46 @@ namespace TestingTool
                 FindElementById("j_idt13:j_idt23").Click();
                 Wait(2000);
                 FindElementByLinkText("Управление пользователями").Click();
+                try
+                {
+                    Wait(2000);
+                    IWebElement checkUsers = FindElementByXPath("//*[@id=\"administrationForm:administrationTab:users:j_idt70_data\"]/tr[ ./td/span[text()='New User'] and  ./td/span[text()='Администратор']]");
+                    return TestResult.Block("User already exist. Delete this user before run test");
+                }
+                catch (NoSuchElementException ex)
+                {
+                }
+
                 Wait(1000);
                 FindElementByName("administrationForm:administrationTab:users:j_idt67").Click();
                 Wait(1000);
-                FindElementByName("administrationForm:administrationTab:users:username").SendKeys("NewUser");
+                FindElementByXPath(@"//*[@id=""administrationForm:administrationTab:users:authority""]/div[3]/span").Click();
+                FindElementByXPath(@"//*[@id=""administrationForm:administrationTab:users:authority_panel""]/div/ul/li[2]").Click();
+                FindElementByName("administrationForm:administrationTab:users:username").SendKeys("New User");
                 FindElementByName("administrationForm:administrationTab:users:password").SendKeys("poiskitpoiskit");
-                SelectElementBySmth(FindElementByName("administrationForm:administrationTab:users:authority_input")).SelectByText("Администратор");
-                FindElementByLinkText("Администратор").Click();
                 FindElementByName("administrationForm:administrationTab:users:accountExpirationDate_input").SendKeys("29.11.2024 00:00:00");
                 FindElementByName("administrationForm:administrationTab:users:saveUserAccountButton").Click();
+                Wait(1000);
+                FindElementById("administrationForm:administrationTab:users:j_idt88").Click();
                 Wait(3000);
-
- //               FindElementByLinkText("NewUser");
-
-                return new TestResult() { Message = "Test successfully completed", IssueId = 0 };
+                IWebElement checkResult = FindElementByXPath("//*[@id=\"administrationForm:administrationTab:users:j_idt70_data\"]/tr[ ./td/span[text()='New User'] and  ./td/span[text()='Администратор']]");
+                if (checkResult != null)
+                {
+                    return TestResult.Success("Test successfully completed");
+                }
+                else
+                {
+                    throw new Exception("User was not created");
+                }
             }
-            catch
+            catch (Exception exeption)
             {
-                return new TestResult() { Message = "Could not find element " + "" + " on this page", IssueId = 1 };
+                return TestResult.Fail("Test failed. Messgae:" + exeption.Message);
             }
-
-        }
-        #endregion
-
-        #region Send result to testlink. RunTest calls here.
-        public void TestlinkAPISendResult()
-        {
-            TestResult result = RunTest();
-            //TestCaseResultStatus status = TestCaseResultStatus.undefined;
-            //TestLink apiAdapter = new TestLink("33e2581a6ef9393b6b119a5c2d1d95a8", "http://10.91.10.209/lib/api/xmlrpc/v1/xmlrpc.php");
-            //TestPlan tpList = apiAdapter.getTestPlanByName("GG-Test", "ginger test plan");
-            //TestCase currentTC = apiAdapter.GetTestCase(apiAdapter.GetTestCaseIDByName("hello")[0].id);
-            //switch (result.IssueId)
-            //{
-            //    case 0:
-            //        status = TestCaseResultStatus.Pass;
-            //        break;
-            //    case 1:
-            //        status = TestCaseResultStatus.Fail;
-            //        break;
-            //    default:
-            //        status = TestCaseResultStatus.undefined;
-            //        break;
-            //}
-            //apiAdapter.ReportTCResult(currentTC.testcase_id, tpList.id, status, platformId: apiAdapter.GetTestPlanPlatforms(tpList.id)[0].id, overwrite: true, notes: result.Message);
-
+            finally
+            {
+                Exit();
+            }         
         }
         #endregion
     }

@@ -82,7 +82,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="api.cs" />
+    <Compile Include="MyTestCaseBase.cs" />
+    <Compile Include="TestLinkCaseWrapper.cs" />
+    <Compile Include="TestResult.cs" />
     <Compile Include="WUI.cs" />
     <Compile Include="Googling_1.cs" />
     <Compile Include="Program.cs" />
