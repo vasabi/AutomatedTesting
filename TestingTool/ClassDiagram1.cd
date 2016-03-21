@@ -1,2 +1,46 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram /> 
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="TestingTool.Googling_1">
+    <Position X="5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Googling_1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TestingTool.Program" Collapsed="true">
+    <Position X="9.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TestingTool.TestLinkCaseWrapper" Collapsed="true">
+    <Position X="11.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAIAAAAAAABAAAAAAAAAABiACAAAAAAAIAAI=</HashCode>
+      <FileName>TestLinkCaseWrapper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TestingTool.WUICreateNewUser">
+    <Position X="7.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WUICreateNewUser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyTestCaseBase" Collapsed="true">
+    <Position X="6.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAgAAAAAABIAAAAAAAAABAAAQAgAAAIAAAAAAKAAA=</HashCode>
+      <FileName>MyTestCaseBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TestResult" Collapsed="true">
+    <Position X="9.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAEAAAEAAAAAAAAAAAAAAgAAgAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>TestResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

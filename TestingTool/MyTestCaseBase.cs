@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
 using NUnit.Framework;
 using CookComputing.XmlRpc;
 using OpenQA.Selenium;
@@ -14,9 +15,6 @@ using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using Meyn.TestLink.NUnitExport;
 using Meyn.TestLink;
-using Gallio;
-using Gallio.Framework;
-using Gallio.Runtime;
 #endregion
 
 public class MyTestCaseBase
@@ -25,30 +23,27 @@ public class MyTestCaseBase
 
     public MyTestCaseBase()
     {
-        
+
     }
 
-    #region Set up Chrome Driver
-    public MyTestCaseBase SetupChrome()
+    #region Set up Driver
+    public MyTestCaseBase SetupDriver(String value)
     {
-        Driver = new ChromeDriver();
-        return this;
-    }
-    #endregion
+        switch (value)
+        {
+            case "Google Chrome":
 
-    #region Set up Firefox Driver
-    public MyTestCaseBase SetupFirefox()
-    {
-        Driver = new FirefoxDriver();
-        return this;
-    }
-    #endregion
-
-    #region Set up IE Driver
-    public MyTestCaseBase SetupIEDriver()
-    {
-        Driver = new InternetExplorerDriver();
-        return this;
+                Driver = new ChromeDriver();
+                return this;
+            case "Firefox":
+                Driver = new FirefoxDriver();
+                return this;
+            case "IE":
+                Driver = new InternetExplorerDriver();
+                return this;
+            default:
+                throw new Exception("User was not created");
+        }
     }
     #endregion
 
@@ -110,6 +105,6 @@ public class MyTestCaseBase
 
     public virtual TestResult RunTest()
     {
-       return TestResult.Fail("Run test not realized");
+        return TestResult.Fail("Run test not realized");
     }
 }

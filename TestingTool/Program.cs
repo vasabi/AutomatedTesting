@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
 using NUnit.Framework;
 using CookComputing.XmlRpc;
 using OpenQA.Selenium;
@@ -14,9 +15,6 @@ using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using Meyn.TestLink.NUnitExport;
 using Meyn.TestLink;
-using Gallio;
-using Gallio.Framework;
-using Gallio.Runtime;
 #endregion
 
 namespace TestingTool
@@ -25,31 +23,30 @@ namespace TestingTool
     {
         static void Main(string[] args)
         {
-            var apiKey = "33e2581a6ef9393b6b119a5c2d1d95a8";
-            var apiUrl = "http://10.91.10.209/lib/api/xmlrpc/v1/xmlrpc.php";
-            var chromePlatformName = "Google Chrome";
-            var firefoxPlatformName = "Firefox";
-            var iePlatformName = "IE";
+            String apiUrl = ConfigurationManager.AppSettings["testLinkUrl"];
+            String apiKey = ConfigurationManager.AppSettings["testLinkApiKey"];
 
-
-            // Для запуска тестов передаются параметы в класс TestLinkCaseWrapper (new TestclassName.DriverMethodName(), apiKey, apiUrl, testProjectName, testPlanName, testPlatdormName, testCaseName)
-            var cases = new List<TestLinkCaseWrapper>() 
+            var platforms = new List<String>()
             {
-        //       new TestLinkCaseWrapper(new Googling_1().SetupChrome(),apiKey, apiUrl, "GG-Test", "ginger test plan", chromePlatformName, "hello"),
-               new TestLinkCaseWrapper(new WUICreateNewUser().SetupChrome(),apiKey, apiUrl, "Avalanche-3", "WUI Testing", chromePlatformName, "Create New User"),
-               new TestLinkCaseWrapper(new WUICreateNewUser().SetupFirefox(),apiKey, apiUrl, "Avalanche-3", "WUI Testing", firefoxPlatformName, "Create New User"),
-               new TestLinkCaseWrapper(new WUICreateNewUser().SetupIEDriver(),apiKey, apiUrl, "Avalanche-3", "WUI Testing", iePlatformName, "Create New User")
+                "Google Chrome",
+                "Firefox",
+                "IE"
             };
 
-            #region RunTests
-            foreach (var thisCase in cases)
+            // Для запуска тестов передаются параметы в класс TestLinkCaseWrapper (new TestclassName.DriverMethodName(), apiKey, apiUrl, testProjectName, testPlanName, testPlatdormName, testCaseName)
+            foreach (var platform in platforms)
             {
-                thisCase.Run();
+                new TestLinkCaseWrapper(new Googling_1().SetupDriver(platform), apiKey, apiUrl, platform, "GG-Test", "ginger test plan", "googling", "hello").Run();
+//                new TestLinkCaseWrapper(new WUICreateNewUser().SetupDriver(platform), apiKey, apiUrl, platform, "Avalanche-3", "WUI Testing", "Administration", "Create New User").Run();
             }
 
-            #endregion
+            ConsoleKeyInfo OnExit;
+            do
+            {
+                Console.WriteLine("Press Esc to exit");
+                OnExit = Console.ReadKey();
+            }
+            while (OnExit.Key != ConsoleKey.Escape);
         }
-
-
     }
 }

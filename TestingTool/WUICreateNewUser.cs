@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
 using NUnit.Framework;
 using CookComputing.XmlRpc;
 using OpenQA.Selenium;
@@ -14,9 +15,6 @@ using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using Meyn.TestLink.NUnitExport;
 using Meyn.TestLink;
-using Gallio;
-using Gallio.Framework;
-using Gallio.Runtime;
 #endregion
 
 namespace TestingTool
@@ -44,7 +42,6 @@ namespace TestingTool
                     Wait(2000);
                     IWebElement checkUsers = FindElementByXPath(userXpath);
                     FindElementByXPath(userXpath + "/td[5]/div[2]/a").Click();
-                    //                    return TestResult.Block("User already exist. Delete this user before run test");
                 }
                 catch (NoSuchElementException)
                 {
