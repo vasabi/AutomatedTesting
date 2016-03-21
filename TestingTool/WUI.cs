@@ -46,7 +46,7 @@ namespace TestingTool
                     FindElementByXPath(userXpath + "/td[5]/div[2]/a").Click();
                     //                    return TestResult.Block("User already exist. Delete this user before run test");
                 }
-                catch (NoSuchElementException ex)
+                catch (NoSuchElementException)
                 {
                 }
                 Wait(1000);
@@ -73,7 +73,7 @@ namespace TestingTool
             }
             catch (Exception exeption)
             {
-                return TestResult.Fail("Test failed. Messgae:" + exeption.Message);
+                return TestResult.Fail("Test failed. Message:" + exeption.Message);
             }
             finally
             {
