@@ -23,7 +23,7 @@ namespace TestingTool
 {
     public class WUICreateNewUser : MyTestCaseBase
     {
-       
+
         #region Test execution
         public override TestResult RunTest()
         {
@@ -38,29 +38,30 @@ namespace TestingTool
                 FindElementById("j_idt13:j_idt23").Click();
                 Wait(2000);
                 FindElementByLinkText("Управление пользователями").Click();
+                String userXpath = "//*[@id=\"administrationForm:administrationTab:users:j_idt70_data\"]/tr[ ./td/span[text()='Admin User'] and  ./td/span[text()='Администратор']]";
                 try
                 {
                     Wait(2000);
-                    IWebElement checkUsers = FindElementByXPath("//*[@id=\"administrationForm:administrationTab:users:j_idt70_data\"]/tr[ ./td/span[text()='New User'] and  ./td/span[text()='Администратор']]");
-                    return TestResult.Block("User already exist. Delete this user before run test");
+                    IWebElement checkUsers = FindElementByXPath(userXpath);
+                    FindElementByXPath(userXpath + "/td[5]/div[2]/a").Click();
+                    //                    return TestResult.Block("User already exist. Delete this user before run test");
                 }
                 catch (NoSuchElementException ex)
                 {
                 }
-
                 Wait(1000);
                 FindElementByName("administrationForm:administrationTab:users:j_idt67").Click();
                 Wait(1000);
                 FindElementByXPath(@"//*[@id=""administrationForm:administrationTab:users:authority""]/div[3]/span").Click();
                 FindElementByXPath(@"//*[@id=""administrationForm:administrationTab:users:authority_panel""]/div/ul/li[2]").Click();
-                FindElementByName("administrationForm:administrationTab:users:username").SendKeys("New User");
+                FindElementByName("administrationForm:administrationTab:users:username").SendKeys("Admin User");
                 FindElementByName("administrationForm:administrationTab:users:password").SendKeys("poiskitpoiskit");
                 FindElementByName("administrationForm:administrationTab:users:accountExpirationDate_input").SendKeys("29.11.2024 00:00:00");
                 FindElementByName("administrationForm:administrationTab:users:saveUserAccountButton").Click();
                 Wait(1000);
                 FindElementById("administrationForm:administrationTab:users:j_idt88").Click();
                 Wait(3000);
-                IWebElement checkResult = FindElementByXPath("//*[@id=\"administrationForm:administrationTab:users:j_idt70_data\"]/tr[ ./td/span[text()='New User'] and  ./td/span[text()='Администратор']]");
+                IWebElement checkResult = FindElementByXPath(userXpath);
                 if (checkResult != null)
                 {
                     return TestResult.Success("Test successfully completed");
@@ -77,7 +78,7 @@ namespace TestingTool
             finally
             {
                 Exit();
-            }         
+            }
         }
         #endregion
     }

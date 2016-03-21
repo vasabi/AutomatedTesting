@@ -29,14 +29,16 @@ namespace TestingTool
             var apiUrl = "http://10.91.10.209/lib/api/xmlrpc/v1/xmlrpc.php";
             var chromePlatformName = "Google Chrome";
             var firefoxPlatformName = "Firefox";
-            var iePlatformName = "IE"; 
+            var iePlatformName = "IE";
 
 
             // Для запуска тестов передаются параметы в класс TestLinkCaseWrapper (new TestclassName.DriverMethodName(), apiKey, apiUrl, testProjectName, testPlanName, testPlatdormName, testCaseName)
             var cases = new List<TestLinkCaseWrapper>() 
             {
-               new TestLinkCaseWrapper(new Googling_1().SetupChrome(),apiKey, apiUrl, "GG-Test", "ginger test plan", chromePlatformName, "hello"),
-                new TestLinkCaseWrapper(new WUICreateNewUser().SetupChrome(),apiKey, apiUrl, "Avalanche-3", "WUI Testing", chromePlatformName, "Create New User")
+        //       new TestLinkCaseWrapper(new Googling_1().SetupChrome(),apiKey, apiUrl, "GG-Test", "ginger test plan", chromePlatformName, "hello"),
+               new TestLinkCaseWrapper(new WUICreateNewUser().SetupChrome(),apiKey, apiUrl, "Avalanche-3", "WUI Testing", chromePlatformName, "Create New User"),
+               new TestLinkCaseWrapper(new WUICreateNewUser().SetupFirefox(),apiKey, apiUrl, "Avalanche-3", "WUI Testing", firefoxPlatformName, "Create New User"),
+               new TestLinkCaseWrapper(new WUICreateNewUser().SetupIEDriver(),apiKey, apiUrl, "Avalanche-3", "WUI Testing", iePlatformName, "Create New User")
             };
 
             #region RunTests
@@ -48,6 +50,6 @@ namespace TestingTool
             #endregion
         }
 
-      
+
     }
 }
