@@ -19,6 +19,7 @@ using Meyn.TestLink;
 
 namespace TestingTool
 {
+    [TestCaseIdentifier("Гуглование")]
     public class Googling_1 : MyTestCaseBase
     {
         

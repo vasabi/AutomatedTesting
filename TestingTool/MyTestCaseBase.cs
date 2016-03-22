@@ -15,6 +15,8 @@ using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using Meyn.TestLink.NUnitExport;
 using Meyn.TestLink;
+using System.IO;
+using System.Reflection;
 #endregion
 
 public class MyTestCaseBase:IDisposable
@@ -29,17 +31,18 @@ public class MyTestCaseBase:IDisposable
     #region Set up Driver
     public MyTestCaseBase SetupDriver(String value)
     {
+        var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"SeleniumDrivers");
         switch (value)
         {
             case "Google Chrome":
 
-                Driver = new ChromeDriver();
+                Driver = new ChromeDriver(path);
                 return this;
             case "Firefox":
                 Driver = new FirefoxDriver();
                 return this;
             case "IE":
-                Driver = new InternetExplorerDriver();
+                Driver = new InternetExplorerDriver(path);
                 return this;
             default:
                 throw new Exception("User was not created");

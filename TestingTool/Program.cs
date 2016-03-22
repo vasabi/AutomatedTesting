@@ -15,6 +15,7 @@ using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using Meyn.TestLink.NUnitExport;
 using Meyn.TestLink;
+using System.Reflection;
 #endregion
 
 namespace TestingTool
@@ -33,12 +34,26 @@ namespace TestingTool
                 "IE"
             };
 
+            //var asseblyPath = "";
+            //var assembly = Assembly.LoadFile(asseblyPath);
+            var caseId = "Гуглование";
+            var assembly = Assembly.GetEntryAssembly();
+            var caseType = assembly.GetTypes().First(t => {
+                var attr = t.GetCustomAttribute<TestCaseIdentifierAttribute>();
+                if (attr != null)
+                    return attr.Id == caseId;
+                return false;
+            });
+
+
+            var caseObject = (MyTestCaseBase)Activator.CreateInstance(caseType);
             foreach (var platform in platforms)
             {
 
                 var tests = new List<TestLinkCaseWrapper>()
                 {
-                    new TestLinkCaseWrapper(new Googling_1(), apiKey, apiUrl, platform, "GG-Test", "ginger test plan", "googling", "hello"),
+                    new TestLinkCaseWrapper(caseObject, apiKey, apiUrl, platform, "GG-Test", "ginger test plan", "googling", "hello"),
+                    //new TestLinkCaseWrapper(new Googling_1(), apiKey, apiUrl, platform, "GG-Test", "ginger test plan", "googling", "hello"),
                     new TestLinkCaseWrapper(new WUICreateNewUser(), apiKey, apiUrl, platform, "Avalanche-3", "WUI Testing", "Administration", "Create New User")
                 };
                 foreach (var test in tests)
