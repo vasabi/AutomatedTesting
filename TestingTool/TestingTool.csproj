@@ -96,8 +96,8 @@
     <Compile Include="TestCaseIdentifierAttribute.cs" />
     <Compile Include="TestLinkCaseWrapper.cs" />
     <Compile Include="TestResult.cs" />
-    <Compile Include="WUICreateNewUser.cs" />
-    <Compile Include="Googling_1.cs" />
+    <Compile Include="TestCases\WUICreateNewUser.cs" />
+    <Compile Include="TestCases\Googling_1.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
