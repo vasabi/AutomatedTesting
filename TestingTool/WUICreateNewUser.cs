@@ -68,13 +68,12 @@ namespace TestingTool
                     throw new Exception("User was not created");
                 }
             }
-            catch (Exception exeption)
+            catch (Exception exception)
             {
-                return TestResult.Fail("Test failed. Message:" + exeption.Message);
+                return TestResult.Fail("Test failed. Message:" + exception.Message);
             }
             finally
             {
-                Exit();
             }
         }
         #endregion

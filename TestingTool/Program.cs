@@ -33,11 +33,28 @@ namespace TestingTool
                 "IE"
             };
 
-            // Для запуска тестов передаются параметы в класс TestLinkCaseWrapper (new TestclassName.DriverMethodName(), apiKey, apiUrl, testProjectName, testPlanName, testPlatdormName, testCaseName)
             foreach (var platform in platforms)
             {
-                new TestLinkCaseWrapper(new Googling_1().SetupDriver(platform), apiKey, apiUrl, platform, "GG-Test", "ginger test plan", "googling", "hello").Run();
-//                new TestLinkCaseWrapper(new WUICreateNewUser().SetupDriver(platform), apiKey, apiUrl, platform, "Avalanche-3", "WUI Testing", "Administration", "Create New User").Run();
+
+                var tests = new List<TestLinkCaseWrapper>()
+                {
+                    new TestLinkCaseWrapper(new Googling_1(), apiKey, apiUrl, platform, "GG-Test", "ginger test plan", "googling", "hello"),
+                    new TestLinkCaseWrapper(new WUICreateNewUser(), apiKey, apiUrl, platform, "Avalanche-3", "WUI Testing", "Administration", "Create New User")
+                };
+                foreach (var test in tests)
+                {
+                    try
+                    {
+                        using (test)
+                        {
+                            test.SetPlatform(platform).Run();
+                        }
+                    }
+                    catch (Exception exception)
+                    {
+                        Console.WriteLine("Exception message:" + exception.Message);
+                    }
+                }
             }
 
             ConsoleKeyInfo OnExit;

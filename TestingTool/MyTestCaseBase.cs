@@ -17,7 +17,7 @@ using Meyn.TestLink.NUnitExport;
 using Meyn.TestLink;
 #endregion
 
-public class MyTestCaseBase
+public class MyTestCaseBase:IDisposable
 {
     protected IWebDriver Driver;
 
@@ -44,14 +44,6 @@ public class MyTestCaseBase
             default:
                 throw new Exception("User was not created");
         }
-    }
-    #endregion
-
-    #region Exit
-    public void Exit()
-    {
-        Driver.Close();
-        Driver.Quit();
     }
     #endregion
 
@@ -106,5 +98,10 @@ public class MyTestCaseBase
     public virtual TestResult RunTest()
     {
         return TestResult.Fail("Run test not realized");
+    }
+
+    public virtual void Dispose()
+    {
+        Driver.Dispose();
     }
 }

@@ -19,7 +19,7 @@ using Meyn.TestLink;
 
 namespace TestingTool
 {
-    public class TestLinkCaseWrapper
+    public class TestLinkCaseWrapper:IDisposable
     {
         private String _apiKey;
         private String _apiUrl;
@@ -29,6 +29,8 @@ namespace TestingTool
         private String _testCaseName;
         private String _testSuiteName;
         private MyTestCaseBase _wrappedTestCase;
+        private TestLink _apiAdapter;
+        private TestPlan _testPlan;
 
         public TestLinkCaseWrapper(MyTestCaseBase wrappedTestCase, String apiKey,
             String apiUrl, String testPlatformName, String projectName, String testPlanName,
@@ -44,43 +46,36 @@ namespace TestingTool
             _wrappedTestCase = wrappedTestCase;
         }
 
-        public TestLink SetAdapter()
+        public void SetAdapter()
         {
-            TestLink apiAdapter = new TestLink(_apiKey, _apiUrl);
-            return apiAdapter;
+            _apiAdapter = new TestLink(_apiKey, _apiUrl);
         }
 
-        public TestPlan TryConnection()
+        public TestPlan SetPlan()
         {
-            TestLink apiAdapter = SetAdapter();
             try
             {
-                TestPlan testPlan = apiAdapter.getTestPlanByName(_projectName, _testPlanName);
-                return testPlan;
+                _testPlan = _apiAdapter.getTestPlanByName(_projectName, _testPlanName);
+                return _testPlan;
             }
-            catch (Exception exeption)
+            catch (Exception exception)
             {
-                Console.WriteLine("Exeption message:" + exeption.Message);
-                return null;
+                Console.WriteLine("Exception message:" + exception.Message);
+                throw exception;
             }
         }
 
         public void Run()
         {
-            TestLink apiAdapter = SetAdapter();
-            TestPlan testPlan = TryConnection();         
-            //List<int> tcList = apiAdapter.GetTestCaseIdsForTestSuite(apiAdapter.GetTestSuitesForTestPlan(testPlan.id).First(e => e.name == _testSuiteName).id, true);
-            //foreach (int index in tcList)
-            //{
-            //TestCase currentTC = apiAdapter.GetTestCase(index);
-            //}
+            SetAdapter();
+            SetPlan();         
             var result = _wrappedTestCase.RunTest();
-            TestCase currentTC = apiAdapter.GetTestCase(apiAdapter.GetTestCaseIDByName(_testCaseName, _testSuiteName)[0].id);
+            TestCase currentTC = _apiAdapter.GetTestCase(_apiAdapter.GetTestCaseIDByName(_testCaseName, _testSuiteName)[0].id);
             Console.WriteLine(String.Format("Result:{0}. Message:{1}", result.Status, result.Message));
             try
             {
-                apiAdapter.ReportTCResult(currentTC.testcase_id, testPlan.id, result.Status,
-                    platformId: apiAdapter.GetTestPlanPlatforms(testPlan.id).First(e => e.name == _testPlatformName).id,
+                _apiAdapter.ReportTCResult(currentTC.testcase_id, _testPlan.id, result.Status,
+                    platformId: _apiAdapter.GetTestPlanPlatforms(_testPlan.id).First(e => e.name == _testPlatformName).id,
                     overwrite: true, notes: result.Message);
 
                 Console.Write("{0}", Environment.NewLine);
@@ -97,6 +92,17 @@ namespace TestingTool
                 Console.WriteLine("Exeption message:" + exeption.Message);
                 Console.Write("{0}", Environment.NewLine);
             }
+        }
+
+        public TestLinkCaseWrapper SetPlatform(string platform)
+        {
+            _wrappedTestCase.SetupDriver(platform);
+            return this;
+        }
+
+        public void Dispose()
+        {
+            _wrappedTestCase.Dispose();
         }
     }
 }

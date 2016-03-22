@@ -42,7 +42,6 @@ namespace TestingTool
             }
             finally
             {
-                Exit();
             }
         }
         #endregion

@@ -105,7 +105,9 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="TestInitConfig\App.config" />
+    <None Include="TestInitConfig\App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="TestInitConfig\RunAllMyTests.config" />
   </ItemGroup>
   <ItemGroup>
