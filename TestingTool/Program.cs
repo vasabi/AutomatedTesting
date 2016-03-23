@@ -5,17 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
-using NUnit.Framework;
-using CookComputing.XmlRpc;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.IE;
-using OpenQA.Selenium.Remote;
-using OpenQA.Selenium.Support.UI;
-using Meyn.TestLink.NUnitExport;
-using Meyn.TestLink;
 using System.Reflection;
+using System.IO;
+using Meyn.TestLink;
+using CookComputing.XmlRpc;
 #endregion
 
 namespace TestingTool
@@ -24,54 +17,82 @@ namespace TestingTool
     {
         static void Main(string[] args)
         {
+            #region Чтение параметров подключения к testlink из конфига
             String apiUrl = ConfigurationManager.AppSettings["testLinkUrl"];
             String apiKey = ConfigurationManager.AppSettings["testLinkApiKey"];
-
-            var platforms = new List<String>()
-            {
-                "Google Chrome",
-                "Firefox",
-                "IE"
-            };
+            #endregion
 
             //var asseblyPath = "";
             //var assembly = Assembly.LoadFile(asseblyPath);
-            var caseId = "Гуглование";
+            #region далее чтение конфигов тестов, запуск выполнения сценариев для каждой платформы
             var assembly = Assembly.GetEntryAssembly();
-            var caseType = assembly.GetTypes().First(t => {
-                var attr = t.GetCustomAttribute<TestCaseIdentifierAttribute>();
-                if (attr != null)
-                    return attr.Id == caseId;
-                return false;
-            });
-
-
-            var caseObject = (MyTestCaseBase)Activator.CreateInstance(caseType);
-            foreach (var platform in platforms)
+            String[] files = Directory.GetFiles(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"TestInitCSV"), "*.csv", SearchOption.AllDirectories);
+            foreach (var file in files)
             {
+                String[] testCaseConfigs = File.ReadAllLines(file);
+                var platforms = testCaseConfigs[0].Split(';');
 
-                var tests = new List<TestLinkCaseWrapper>()
+                if (testCaseConfigs.Length < 2)
                 {
-                    new TestLinkCaseWrapper(caseObject, apiKey, apiUrl, platform, "GG-Test", "ginger test plan", "googling", "hello"),
-                    //new TestLinkCaseWrapper(new Googling_1(), apiKey, apiUrl, platform, "GG-Test", "ginger test plan", "googling", "hello"),
-                    new TestLinkCaseWrapper(new WUICreateNewUser(), apiKey, apiUrl, platform, "Avalanche-3", "WUI Testing", "Administration", "Create New User")
-                };
-                foreach (var test in tests)
+                    Console.WriteLine("ERROR: CSV file is not valid");
+                    break;
+                }
+                for (int i = 1; i < testCaseConfigs.Length; i++)
                 {
-                    try
+                    String testCaseConfig = testCaseConfigs[i];
+                    String[] parameter = testCaseConfig.Split(';');
+                    var projectName = parameter[0];
+                    var testPlanName = parameter[1];
+                    var testSuitName = parameter[2];
+                    var testCaseName = parameter[3];
+
+                    var caseType = assembly.GetTypes().FirstOrDefault(t =>
                     {
-                        using (test)
-                        {
-                            test.SetPlatform(platform).Run();
-                        }
+                        var attr = t.GetCustomAttribute<TestCaseIdentifierAttribute>();
+                        if (attr != null)
+                            return attr.ProjectName == projectName && attr.TestSuiteName == testSuitName
+                                && attr.TestCaseName == testCaseName;
+                        return false;
+                    });
+
+                    if (caseType == null)
+                    {
+                        Console.WriteLine("There are no classes to run test with name: " + testCaseName);
+                        break;
                     }
-                    catch (Exception exception)
+
+                    var caseObject = (MyTestCaseBase)Activator.CreateInstance(caseType);
+
+                    foreach (var platform in platforms)
                     {
-                        Console.WriteLine("Exception message:" + exception.Message);
+                        var test = new TestLinkCaseWrapper(caseObject, apiKey, apiUrl, platform, projectName, testPlanName, testSuitName, testCaseName);
+                        try
+                        {
+                            using (test)
+                            {
+                                test.SetPlatform(platform).Run();
+                            }
+                        }
+                        catch (XmlRpcMissingUrl exception)
+                        {
+                            Console.WriteLine("ERROR:" + exception.Message);
+                            break;
+                        }
+                        catch (TestLinkException  exception)
+                        {
+                            Console.WriteLine("ERROR:" + exception.Message);
+                            break;
+                        }
+                        catch (Exception exception)
+                        {
+                            Console.WriteLine("EXCEPTION:" + exception.Message);
+                        }
                     }
                 }
             }
+            #endregion
 
+            #region Выход из консоли
             ConsoleKeyInfo OnExit;
             do
             {
@@ -79,6 +100,7 @@ namespace TestingTool
                 OnExit = Console.ReadKey();
             }
             while (OnExit.Key != ConsoleKey.Escape);
+            #endregion
         }
     }
 }

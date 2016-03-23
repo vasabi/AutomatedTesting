@@ -5,16 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
-using NUnit.Framework;
-using CookComputing.XmlRpc;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
-using Meyn.TestLink.NUnitExport;
-using Meyn.TestLink;
 using System.IO;
 using System.Reflection;
 #endregion
@@ -23,10 +19,12 @@ public class MyTestCaseBase:IDisposable
 {
     protected IWebDriver Driver;
 
+    #region конструктор
     public MyTestCaseBase()
     {
 
     }
+    #endregion
 
     #region Set up Driver
     public MyTestCaseBase SetupDriver(String value)
@@ -98,13 +96,17 @@ public class MyTestCaseBase:IDisposable
     }
     #endregion
 
+    #region запуск теста
     public virtual TestResult RunTest()
     {
         return TestResult.Fail("Run test not realized");
     }
+    #endregion
 
+    #region Dispose
     public virtual void Dispose()
     {
         Driver.Dispose();
     }
+    #endregion
 }

@@ -5,21 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
-using NUnit.Framework;
-using CookComputing.XmlRpc;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
-using Meyn.TestLink.NUnitExport;
-using Meyn.TestLink;
 #endregion
 
 namespace TestingTool
 {
-    [TestCaseIdentifier("Гуглование")]
+    [TestCaseIdentifier("GG-Test", "googling", "hello")] //атрибуты, считываемые из csv
     public class Googling_1 : MyTestCaseBase
     {
         

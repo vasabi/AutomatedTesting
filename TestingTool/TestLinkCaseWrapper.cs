@@ -5,14 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
-using NUnit.Framework;
 using CookComputing.XmlRpc;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.IE;
-using OpenQA.Selenium.Remote;
-using OpenQA.Selenium.Support.UI;
 using Meyn.TestLink.NUnitExport;
 using Meyn.TestLink;
 #endregion
@@ -21,6 +14,7 @@ namespace TestingTool
 {
     public class TestLinkCaseWrapper:IDisposable
     {
+        #region конструктор
         private String _apiKey;
         private String _apiUrl;
         private String _projectName;
@@ -45,12 +39,16 @@ namespace TestingTool
             _testSuiteName = testSuiteName;
             _wrappedTestCase = wrappedTestCase;
         }
+        #endregion
 
+        #region применение параметров для работы с testLink api
         public void SetAdapter()
         {
             _apiAdapter = new TestLink(_apiKey, _apiUrl);
         }
+        #endregion
 
+        #region применение параметров тестпроекта, тестплана / проверка доступности сервера / проверка девкея
         public TestPlan SetPlan()
         {
             try
@@ -60,11 +58,12 @@ namespace TestingTool
             }
             catch (Exception exception)
             {
-                Console.WriteLine("Exception message:" + exception.Message);
                 throw exception;
             }
         }
+        #endregion
 
+        #region запись результатов теста в testlink
         public void Run()
         {
             SetAdapter();
@@ -93,16 +92,21 @@ namespace TestingTool
                 Console.Write("{0}", Environment.NewLine);
             }
         }
+        #endregion
 
+        #region назначение платформ
         public TestLinkCaseWrapper SetPlatform(string platform)
         {
             _wrappedTestCase.SetupDriver(platform);
             return this;
         }
+        #endregion
 
+        #region Dispose
         public void Dispose()
         {
             _wrappedTestCase.Dispose();
         }
+        #endregion
     }
 }
