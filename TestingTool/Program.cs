@@ -57,7 +57,7 @@ namespace TestingTool
 
                     if (caseType == null)
                     {
-                        Console.WriteLine("There are no classes to run test with name: " + testCaseName +"or csv file is invalid");
+                        Console.WriteLine("There are no classes to run test with name: " + testCaseName +" or csv file is invalid");
                         break;
                     }
 

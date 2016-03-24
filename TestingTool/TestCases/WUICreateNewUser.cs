@@ -35,7 +35,7 @@ namespace TestingTool
                 String userXpath = "//*[@id=\"administrationForm:administrationTab:users:j_idt70_data\"]/tr[ ./td/span[text()='Admin User'] and  ./td/span[text()='Администратор']]";
                 try
                 {
-                    Wait(() => FindElementByXPath(userXpath), 2);
+                    Wait(() => FindElementByXPath(userXpath), TimeSpan.FromSeconds(2));
                     WaitOverlay(() => FindElementByClassName("blockUI blockOverlay ui-widget-overlay"));
                     FindElementByXPath(userXpath + "/td[5]/div[2]/a").Click();
                 }

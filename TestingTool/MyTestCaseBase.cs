@@ -53,11 +53,11 @@ namespace TestingTool
 
         public IWebElement Wait(Func<IWebElement> whatToWait)
         {
-            return Wait(whatToWait, 1000);
+            return Wait(whatToWait, TimeSpan.FromSeconds(60));
         }
-        public IWebElement Wait(Func<IWebElement> whatToWait, Int32 timeout)
+        public IWebElement Wait(Func<IWebElement> whatToWait, TimeSpan timeout)
         {
-            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(timeout));
+            WebDriverWait wait = new WebDriverWait(Driver, timeout);
             IWebElement myDynamicElement = wait.Until<IWebElement>((d) =>
                 {
                     try
@@ -80,7 +80,7 @@ namespace TestingTool
         {
             try
             {
-                Wait(whatToWait, 1);
+                Wait(whatToWait, TimeSpan.FromSeconds(1));
             }
             catch (WebDriverTimeoutException)
             {
@@ -107,6 +107,10 @@ namespace TestingTool
 
         public void WaitAndClick(Func<IWebElement> whatToWait)
         {
+            WaitAndClick(whatToWait, TimeSpan.FromSeconds(60));
+        }
+        public void WaitAndClick(Func<IWebElement> whatToWait, TimeSpan timeout)
+        {
 
             IWebElement elem = null;
             Boolean isClicked = false;
@@ -114,7 +118,7 @@ namespace TestingTool
             {
                 try
                 {
-                    elem = Wait(whatToWait);
+                    elem = Wait(whatToWait, timeout);
                     elem.Click();
                     isClicked = true;
                 }
