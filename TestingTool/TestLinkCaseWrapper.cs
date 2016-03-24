@@ -77,19 +77,13 @@ namespace TestingTool
                     platformId: _apiAdapter.GetTestPlanPlatforms(_testPlan.id).First(e => e.name == _testPlatformName).id,
                     overwrite: true, notes: result.Message);
 
-                Console.Write("{0}", Environment.NewLine);
                 Console.WriteLine("Test results successfully send to TestlinkServer");
-                Console.Write("{0}", Environment.NewLine);
             }
             catch (Exception exeption)
             {
-                Console.Write("{0}", Environment.NewLine);
                 Console.WriteLine("Test result can not be saved because TestCase (" + _testCaseName + "), TestSuit ("
                     + _testSuiteName + ") does not exist for current TestPlan (" + _testPlanName
-                    + ") or TestPlatform (" + _testPlatformName + "). Please read the exeption message");
-                Console.Write("{0}", Environment.NewLine);
-                Console.WriteLine("Exeption message:" + exeption.Message);
-                Console.Write("{0}", Environment.NewLine);
+                    + ") or TestPlatform (" + _testPlatformName + ")." + exeption.Message);
             }
         }
         #endregion

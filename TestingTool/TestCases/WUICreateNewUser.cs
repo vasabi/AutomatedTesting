@@ -18,7 +18,6 @@ namespace TestingTool
     [TestCaseIdentifier("Avalanche-3", "Administration", "Create New User")] //атрибуты, считываемые из csv
     public class WUICreateNewUser : MyTestCaseBase
     {
-
         #region Test execution
         public override TestResult RunTest()
         {
@@ -29,33 +28,32 @@ namespace TestingTool
                 FindElementByName("j_username").SendKeys("selenium");
                 FindElementByName("j_password").SendKeys("poiskitpoiskit");
                 FindElementByName("loginButton").Click();
-                Wait(2000);
-                FindElementById("j_idt13:j_idt23").Click();
-                Wait(2000);
-                FindElementByLinkText("Управление пользователями").Click();
+                WaitOverlay(() => FindElementByClassName("blockUI blockOverlay ui-widget-overlay"));
+                WaitAndClick(() => FindElementById("j_idt13:j_idt23"));
+                WaitOverlay(() => FindElementByClassName("blockUI blockOverlay ui-widget-overlay"));
+                WaitAndClick(() => FindElementByXPath(@"//*[@id=""administrationForm:administrationTab""]/ul/li[2]/a"));
                 String userXpath = "//*[@id=\"administrationForm:administrationTab:users:j_idt70_data\"]/tr[ ./td/span[text()='Admin User'] and  ./td/span[text()='Администратор']]";
                 try
                 {
-                    Wait(2000);
-                    IWebElement checkUsers = FindElementByXPath(userXpath);
+                    Wait(() => FindElementByXPath(userXpath), 2);
+                    WaitOverlay(() => FindElementByClassName("blockUI blockOverlay ui-widget-overlay"));
                     FindElementByXPath(userXpath + "/td[5]/div[2]/a").Click();
                 }
-                catch (NoSuchElementException)
+                catch (WebDriverTimeoutException)
                 {
                 }
-                Wait(1000);
-                FindElementByName("administrationForm:administrationTab:users:j_idt67").Click();
-                Wait(1000);
-                FindElementByXPath(@"//*[@id=""administrationForm:administrationTab:users:authority""]/div[3]/span").Click();
+                WaitOverlay(() => FindElementByClassName("blockUI blockOverlay ui-widget-overlay"));
+                WaitAndClick(() => FindElementByName("administrationForm:administrationTab:users:j_idt67"));
+                WaitOverlay(() => FindElementByClassName("blockUI blockOverlay ui-widget-overlay"));
+                WaitAndClick(() => FindElementByXPath(@"//*[@id=""administrationForm:administrationTab:users:authority""]/div[3]/span"));
                 FindElementByXPath(@"//*[@id=""administrationForm:administrationTab:users:authority_panel""]/div/ul/li[2]").Click();
                 FindElementByName("administrationForm:administrationTab:users:username").SendKeys("Admin User");
                 FindElementByName("administrationForm:administrationTab:users:password").SendKeys("poiskitpoiskit");
                 FindElementByName("administrationForm:administrationTab:users:accountExpirationDate_input").SendKeys("29.11.2024 00:00:00");
                 FindElementByName("administrationForm:administrationTab:users:saveUserAccountButton").Click();
-                Wait(1000);
-                FindElementById("administrationForm:administrationTab:users:j_idt88").Click();
-                Wait(3000);
-                IWebElement checkResult = FindElementByXPath(userXpath);
+                WaitOverlay(() => FindElementByClassName("blockUI blockOverlay ui-widget-overlay"));
+                WaitAndClick(() => FindElementById("administrationForm:administrationTab:users:j_idt88"));
+                IWebElement checkResult = Wait(() => FindElementByXPath(userXpath));
                 if (checkResult != null)
                 {
                     return TestResult.Success("Test successfully completed");
@@ -70,10 +68,9 @@ namespace TestingTool
                 return TestResult.Fail("Test failed. Message:" + exception.Message);
             }
             finally
-            {
+            {               
             }
         }
         #endregion
     }
-
 }

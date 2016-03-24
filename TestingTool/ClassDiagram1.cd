@@ -4,11 +4,14 @@
     <Position X="5" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Googling_1.cs</FileName>
+      <FileName>TestCases\Googling_1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TestingTool.Program" Collapsed="true">
     <Position X="9.75" Y="1.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
       <FileName>Program.cs</FileName>
@@ -17,29 +20,38 @@
   <Class Name="TestingTool.TestLinkCaseWrapper" Collapsed="true">
     <Position X="11.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAIAAAAIAAAAAAABAAAAAAAAAABiACAAAAAAAIAAI=</HashCode>
+      <HashCode>AAAAIIAAAKQAAAAQABAAACgAAAAABiACAAAAAAAIAAI=</HashCode>
       <FileName>TestLinkCaseWrapper.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="TestingTool.WUICreateNewUser">
     <Position X="7.25" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>WUICreateNewUser.cs</FileName>
+      <FileName>TestCases\WUICreateNewUser.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MyTestCaseBase" Collapsed="true">
     <Position X="6.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AQAAgAAAAAABIAAAAAAAAABAAAQAgAAAIAAAAAAKAAA=</HashCode>
+      <HashCode>AQAAgAAAACABIAAAAAAAAABAAAQAgAAAAAAAAAAKAAA=</HashCode>
       <FileName>MyTestCaseBase.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="TestResult" Collapsed="true">
     <Position X="9.75" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BAAEAAAEAAAAAAAAAAAAAAgAAgAAAAAAAAAAIAAAAAA=</HashCode>
       <FileName>TestResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TestingTool.TestCaseIdentifierAttribute">
+    <Position X="4.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAQAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TestCaseIdentifierAttribute.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

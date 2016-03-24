@@ -15,98 +15,182 @@ using System.IO;
 using System.Reflection;
 #endregion
 
-public class MyTestCaseBase:IDisposable
+namespace TestingTool
 {
-    protected IWebDriver Driver;
-
-    #region конструктор
-    public MyTestCaseBase()
+    public class MyTestCaseBase : IDisposable
     {
+        protected IWebDriver Driver;
 
-    }
-    #endregion
-
-    #region Set up Driver
-    public MyTestCaseBase SetupDriver(String value)
-    {
-        var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"SeleniumDrivers");
-        switch (value)
+        #region конструктор
+        public MyTestCaseBase()
         {
-            case "Google Chrome":
 
-                Driver = new ChromeDriver(path);
-                return this;
-            case "Firefox":
-                Driver = new FirefoxDriver();
-                return this;
-            case "IE":
-                Driver = new InternetExplorerDriver(path);
-                return this;
-            default:
-                throw new Exception("User was not created");
         }
-    }
-    #endregion
+        #endregion
 
-    #region Wait
-    public void Wait(Int32 value)
-    {
-        System.Threading.Thread.Sleep(value);
-    }
-    #endregion
+        #region Set up Driver
+        public MyTestCaseBase SetupDriver(String value)
+        {
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"SeleniumDrivers");
+            switch (value)
+            {
+                case "Google Chrome":
+                    Driver = new ChromeDriver(path);
+                    return this;
+                case "Firefox":
+                    Driver = new FirefoxDriver();
+                    return this;
+                case "IE":
+                    Driver = new InternetExplorerDriver(path);
+                    return this;
+                default:
+                    throw new Exception("User was not created");
+            }
+        }
+        #endregion
 
-    #region FindElementByName
-    public IWebElement FindElementByName(String value)
-    {
-        IWebElement elementOnPage = Driver.FindElement(By.Name(value));
-        return elementOnPage;
-    }
-    #endregion
+        #region Wait
 
-    #region FindElementByXPath
-    public IWebElement FindElementByXPath(String value)
-    {
-        IWebElement elementOnPage = Driver.FindElement(By.XPath(value));
-        return elementOnPage;
-    }
-    #endregion
+        public IWebElement Wait(Func<IWebElement> whatToWait)
+        {
+            return Wait(whatToWait, 1000);
+        }
+        public IWebElement Wait(Func<IWebElement> whatToWait, Int32 timeout)
+        {
+            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(timeout));
+            IWebElement myDynamicElement = wait.Until<IWebElement>((d) =>
+                {
+                    try
+                    {
+                        return whatToWait();
+                    }
+                    catch (NoSuchElementException)
+                    {
+                        return null;
+                    }
+                    catch (ElementNotVisibleException)
+                    {
+                        return null;
+                    }
+                });
+            return myDynamicElement;
+        }
 
-    #region FindElementById
-    public IWebElement FindElementById(String value)
-    {
-        IWebElement elementOnPage = Driver.FindElement(By.Id(value));
-        return elementOnPage;
-    }
-    #endregion
+        public void WaitOverlay(Func<IWebElement> whatToWait)
+        {
+            try
+            {
+                Wait(whatToWait, 1);
+            }
+            catch (WebDriverTimeoutException)
+            {
+            }
 
-    #region FindElementByLinkText
-    public IWebElement FindElementByLinkText(String value)
-    {
-        IWebElement elementOnPage = Driver.FindElement(By.LinkText(value));
-        return elementOnPage;
-    }
-    #endregion
+            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(60));
+            IWebElement myDynamicElement = wait.Until<IWebElement>((d) =>
+            {
+                try
+                {
+                    whatToWait();
+                    return null;
+                }
+                catch (NoSuchElementException)
+                {
+                    return new MockWebElement();
+                }
+                catch (ElementNotVisibleException)
+                {
+                    return new MockWebElement();
+                }
+            });
+        }
 
-    #region SelectElement
-    public SelectElement SelectElementBySmth(IWebElement value)
-    {
-        SelectElement select = new SelectElement(value);
-        var options = select.Options;
-        return select;
-    }
-    #endregion
+        public void WaitAndClick(Func<IWebElement> whatToWait)
+        {
 
-    #region запуск теста
-    public virtual TestResult RunTest()
-    {
-        return TestResult.Fail("Run test not realized");
-    }
-    #endregion
+            IWebElement elem = null;
+            Boolean isClicked = false;
+            while (!isClicked)
+            {
+                try
+                {
+                    elem = Wait(whatToWait);
+                    elem.Click();
+                    isClicked = true;
+                }
+                catch (InvalidOperationException)
+                {
+                    Task.Delay(100).Wait();
+                }
+                catch (StaleElementReferenceException)
+                {
+                    Task.Delay(100).Wait();
+                }
+            }
+        }
+        #endregion
 
-    #region Dispose
-    public virtual void Dispose()
-    {
-        Driver.Dispose();
+        #region FindElementByName
+        public IWebElement FindElementByName(String value)
+        {
+            IWebElement elementOnPage = Driver.FindElement(By.Name(value));
+            return elementOnPage;
+        }
+        #endregion
+
+        #region FindElementByClassName
+        public IWebElement FindElementByClassName(String value)
+        {
+            IWebElement elementOnPage = Driver.FindElement(By.ClassName(value));
+            return elementOnPage;
+        }
+        #endregion
+
+        #region FindElementByXPath
+        public IWebElement FindElementByXPath(String value)
+        {
+            IWebElement elementOnPage = Driver.FindElement(By.XPath(value));
+            return elementOnPage;
+        }
+        #endregion
+
+        #region FindElementById
+        public IWebElement FindElementById(String value)
+        {
+            IWebElement elementOnPage = Driver.FindElement(By.Id(value));
+            return elementOnPage;
+        }
+        #endregion
+
+        #region FindElementByLinkText
+        public IWebElement FindElementByLinkText(String value)
+        {
+            IWebElement elementOnPage = Driver.FindElement(By.LinkText(value));
+            return elementOnPage;
+        }
+        #endregion
+
+        #region SelectElement
+        public SelectElement SelectElementBySmth(IWebElement value)
+        {
+            SelectElement select = new SelectElement(value);
+            var options = select.Options;
+            return select;
+        }
+        #endregion
+
+        #region запуск теста
+        public virtual TestResult RunTest()
+        {
+            return TestResult.Fail("Run test not realized");
+        }
+        #endregion
+
+        #region Dispose
+        public virtual void Dispose()
+        {
+            Driver.Dispose();
+        }
+        #endregion
     }
-    #endregion
 }
