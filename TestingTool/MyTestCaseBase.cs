@@ -76,6 +76,27 @@ namespace TestingTool
             return myDynamicElement;
         }
 
+        public Boolean WaitBool(Func<Boolean> whatToWait)
+        {
+            return WaitBool(whatToWait, TimeSpan.FromSeconds(60));
+        }
+        public Boolean WaitBool(Func<Boolean> whatToWait, TimeSpan timeout)
+        {
+            WebDriverWait wait = new WebDriverWait(Driver, timeout);
+            Boolean check = wait.Until<Boolean>((d) =>
+            {
+                try
+                {
+                    return whatToWait();
+                }
+                catch (NotFoundException)
+                {
+                    return true;
+                }
+            });
+            return check;
+        }
+
         public void WaitOverlay(Func<IWebElement> whatToWait)
         {
             try

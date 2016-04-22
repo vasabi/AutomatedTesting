@@ -95,6 +95,8 @@
     <Compile Include="MockWebElement.cs" />
     <Compile Include="MyTestCaseBase.cs" />
     <Compile Include="TestCaseIdentifierAttribute.cs" />
+    <Compile Include="TestCases\WUIElementPresentSearch.cs" />
+    <Compile Include="TestCases\WUIElementPresentAutorization.cs" />
     <Compile Include="TestCases\WUILoginUserRights.cs" />
     <Compile Include="TestLinkCaseWrapper.cs" />
     <Compile Include="TestResult.cs" />

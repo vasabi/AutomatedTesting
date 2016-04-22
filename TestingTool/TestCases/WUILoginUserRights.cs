@@ -13,7 +13,7 @@ using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 #endregion
 
-namespace TestingTool
+namespace TestingTool.TestCases
 {
     [TestCaseIdentifier("Avalanche-3", "Administration", "Login user rights")] //атрибуты, считываемые из csv
     public class WUILoginUserRights : MyTestCaseBase
@@ -21,27 +21,27 @@ namespace TestingTool
         #region Test execution
         public override TestResult RunTest()
         {
-            string url = "http://10.91.5.35:8082/WebInterfaceApp/";
+            string homeUrl = "http://10.91.5.3:8080/";
+            string dstUrl = "http://10.91.5.3:8080/Search";
             try
             {
-                Driver.Navigate().GoToUrl(url);
-                FindElementByName("j_username").SendKeys("selenium user");
-                FindElementByName("j_password").SendKeys("poiskit");
-                FindElementByName("loginButton").Click();
-                WaitOverlay(() => FindElementByClassName("blockUI blockOverlay ui-widget-overlay"));
+                Driver.Navigate().GoToUrl(homeUrl);
+                FindElementByXPath(@"//*[@id=""Login""]").SendKeys("selenium user");
+                FindElementByXPath(@"//*[@id=""Password""]").SendKeys("poiskit");
+                FindElementByXPath(@"//*[@id=""wrapper""]/div[2]/section/form/div[5]/div/button").Click();
                 try
                 {
-                    FindElementByLinkText("Администрирование");
-                    return TestResult.Fail("Test failed. Message: User with user rights can administrate system");                    
+                    WaitBool(() => Driver.Url.Equals(dstUrl), TimeSpan.FromSeconds(5));
                 }
-                catch 
+                catch (WebDriverTimeoutException exception)
                 {
-                    return TestResult.Success("Test successfully completed");
+                    return TestResult.Fail("Не удалось перейти на страницу поиска. " + exception.Message);
                 }
+                    return TestResult.Success("Test successfully completed");
             }
             catch (Exception exception)
             {
-                return TestResult.Fail("Test failed. Message:" + exception.Message);
+                return TestResult.Fail("Test failed. Message: " + exception.Message);
             }
             finally
             {               
