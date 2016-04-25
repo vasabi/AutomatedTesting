@@ -75,7 +75,7 @@ namespace TestingTool
             {
                 _apiAdapter.ReportTCResult(currentTC.testcase_id, _testPlan.id, result.Status,
                     platformId: _apiAdapter.GetTestPlanPlatforms(_testPlan.id).First(e => e.name == _testPlatformName).id,
-                    overwrite: true, notes: result.Message);
+                    overwrite: false, notes: result.Message);
 
                 Console.WriteLine("Test results successfully send to TestlinkServer");
             }
