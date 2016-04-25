@@ -21,7 +21,8 @@ namespace TestingTool.TestCases
         #region Test execution
         public override TestResult RunTest()
         {
-            string homeUrl = "http://10.91.5.3:8080/";
+            String testServer = ConfigurationManager.AppSettings["testServer"];
+            string homeUrl = "http://" + testServer + "/";
             try
             {
                 Driver.Navigate().GoToUrl(homeUrl);
@@ -38,7 +39,7 @@ namespace TestingTool.TestCases
                 FindElementByXPath(@"//*[@id=""wrapper""]/div[2]/section/form/div[4]/div/div"); //найти чекбокс запомнить меня
                 FindElementByXPath(@"//*[@id=""wrapper""]/div[2]/section/form/div[4]/div/div/label"); //найти заголовок запомнить меня
                 FindElementByXPath(@"//*[@id=""wrapper""]/div[2]/section/form/div[5]/div/button"); //найти кнопку логин
-                FindElementByXPath(@"/html/body/footer/p"); //найти футер
+                FindElementByXPath(@"/html/body/footer"); //найти футер
                 return TestResult.Success("Test successfully completed");
             }
             catch (Exception exception)

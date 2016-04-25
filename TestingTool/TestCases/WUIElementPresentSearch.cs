@@ -21,24 +21,9 @@ namespace TestingTool.TestCases
         #region Test execution
         public override TestResult RunTest()
         {
-            string homeUrl = "http://10.91.5.3:8080/";
-            string dstUrl = "http://10.91.5.3:8080/Search";
             try
             {
-                #region Login
-                Driver.Navigate().GoToUrl(homeUrl);
-                FindElementByXPath(@"//*[@id=""Login""]").SendKeys("selenium user");
-                FindElementByXPath(@"//*[@id=""Password""]").SendKeys("poiskit");
-                FindElementByXPath(@"//*[@id=""wrapper""]/div[2]/section/form/div[5]/div/button").Click();
-                try
-                {
-                    WaitBool(() => Driver.Url.Equals(dstUrl), TimeSpan.FromSeconds(5));
-                }
-                catch (WebDriverTimeoutException exception)
-                {
-                    return TestResult.Fail("Не удалось перейти на страницу поиска. " + exception.Message);
-                }
-                #endregion
+                WUIHelper.LoginToServer(this);
 
                 FindElementByXPath(@"/html/body/div[1]/div/div[2]"); //найти панель навигации
                 FindElementByXPath(@"/html/body/div[1]/div/div[2]/button"); //найти кнопку "спрятать панель навигации"

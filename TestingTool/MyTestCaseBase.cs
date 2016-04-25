@@ -217,5 +217,17 @@ namespace TestingTool
             Driver.Dispose();
         }
         #endregion
+
+        #region DriverMethods
+        internal void GoToUrl(string url)
+        {
+            Driver.Navigate().GoToUrl(url);
+        }
+
+        internal string GetUrl()
+        {
+            return Driver.Url;
+        }
+        #endregion
     }
 }
