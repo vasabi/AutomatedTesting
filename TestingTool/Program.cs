@@ -61,7 +61,7 @@ namespace TestingTool
                         break;
                     }
 
-                    var caseObject = (MyTestCaseBase)Activator.CreateInstance(caseType);
+                    var caseObject = (TestCaseBase)Activator.CreateInstance(caseType);
 
                     foreach (var platform in platforms)
                     {

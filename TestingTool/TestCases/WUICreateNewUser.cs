@@ -16,7 +16,7 @@ using OpenQA.Selenium.Support.UI;
 namespace TestingTool
 {
     [TestCaseIdentifier("Avalanche-3", "Administration", "Create New User")] //атрибуты, считываемые из csv
-    public class WUICreateNewUser : MyTestCaseBase
+    public class WUICreateNewUser : TestCaseBase
     {
         #region Test execution
         public override TestResult RunTest()
@@ -60,10 +60,10 @@ namespace TestingTool
                 }
                 else
                 {
-                    throw new Exception("User was not created");
+                    throw new TestCaseException("User was not created");
                 }
             }
-            catch (Exception exception)
+            catch (TestCaseException exception)
             {
                 return TestResult.Fail("Test failed. Message:" + exception.Message);
             }

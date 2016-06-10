@@ -22,11 +22,11 @@ namespace TestingTool
         private String _testPlatformName;
         private String _testCaseName;
         private String _testSuiteName;
-        private MyTestCaseBase _wrappedTestCase;
+        private TestCaseBase _wrappedTestCase;
         private TestLink _apiAdapter;
         private TestPlan _testPlan;
 
-        public TestLinkCaseWrapper(MyTestCaseBase wrappedTestCase, String apiKey,
+        public TestLinkCaseWrapper(TestCaseBase wrappedTestCase, String apiKey,
             String apiUrl, String testPlatformName, String projectName, String testPlanName,
             String testSuiteName, String testCaseName)
         {
@@ -56,7 +56,7 @@ namespace TestingTool
                 _testPlan = _apiAdapter.getTestPlanByName(_projectName, _testPlanName);
                 return _testPlan;
             }
-            catch (Exception exception)
+            catch (TestCaseException exception)
             {
                 throw exception;
             }
@@ -70,7 +70,7 @@ namespace TestingTool
             SetPlan();         
             var result = _wrappedTestCase.RunTest();
             TestCase currentTC = _apiAdapter.GetTestCase(_apiAdapter.GetTestCaseIDByName(_testCaseName, _testSuiteName)[0].id);
-            Console.WriteLine(String.Format("Result:{0}. Message:{1}", result.Status, result.Message));
+            Console.WriteLine(String.Format("Result: {0}. Message: {1}", result.Status, result.Message));
             try
             {
                 _apiAdapter.ReportTCResult(currentTC.testcase_id, _testPlan.id, result.Status,
@@ -79,7 +79,7 @@ namespace TestingTool
 
                 Console.WriteLine("Test results successfully send to TestlinkServer");
             }
-            catch (Exception exeption)
+            catch (TestCaseException exeption)
             {
                 Console.WriteLine("Test result can not be saved because TestCase (" + _testCaseName + "), TestSuit ("
                     + _testSuiteName + ") does not exist for current TestPlan (" + _testPlanName

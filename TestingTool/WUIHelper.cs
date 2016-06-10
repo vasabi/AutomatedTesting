@@ -17,7 +17,7 @@ namespace TestingTool
 {
     class WUIHelper
     {
-        public static void LoginToServer(MyTestCaseBase testCase)
+        public static void LoginToServer(TestCaseBase testCase)
         {
             String testServer = ConfigurationManager.AppSettings["testServer"];
             string homeUrl = "http://" + testServer +"/";

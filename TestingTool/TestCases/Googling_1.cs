@@ -16,7 +16,7 @@ using OpenQA.Selenium.Support.UI;
 namespace TestingTool
 {
     [TestCaseIdentifier("GG-Test", "googling", "hello")] //атрибуты, считываемые из csv
-    public class Googling_1 : MyTestCaseBase
+    public class Googling_1 : TestCaseBase
     {
         
         #region Test execution

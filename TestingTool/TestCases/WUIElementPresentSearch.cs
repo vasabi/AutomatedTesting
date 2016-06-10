@@ -16,7 +16,7 @@ using OpenQA.Selenium.Support.UI;
 namespace TestingTool.TestCases
 {
     [TestCaseIdentifier("Avalanche-3", "BasicTestGroup", "ElementPresent check Search page")] //атрибуты, считываемые из csv
-    public class WUIElementPresentSearch : MyTestCaseBase
+    public class WUIElementPresentSearch : TestCaseBase
     {
         #region Test execution
         public override TestResult RunTest()
@@ -41,7 +41,7 @@ namespace TestingTool.TestCases
                 FindElementByXPath(@"/html/body/footer"); //найти футер
                 return TestResult.Success("Test successfully completed");
             }
-            catch (Exception exception)
+            catch (TestCaseException exception)
             {
                 return TestResult.Fail("Test failed. Message: " + exception.Message);
             }

@@ -16,7 +16,7 @@ using OpenQA.Selenium.Support.UI;
 namespace TestingTool.TestCases
 {
     [TestCaseIdentifier("Avalanche-3", "Administration", "Login user rights")] //атрибуты, считываемые из csv
-    public class WUILoginUserRights : MyTestCaseBase
+    public class WUILoginUserRights : TestCaseBase
     {
         #region Test execution
         public override TestResult RunTest()
@@ -26,7 +26,7 @@ namespace TestingTool.TestCases
                 WUIHelper.LoginToServer(this);
                 return TestResult.Success("Test successfully completed");
             }
-            catch (Exception exception)
+            catch (TestCaseException exception)
             {
                 return TestResult.Fail("Test failed. Message: " + exception.Message);
             }

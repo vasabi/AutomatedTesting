@@ -17,19 +17,19 @@ using System.Reflection;
 
 namespace TestingTool
 {
-    public class MyTestCaseBase : IDisposable
+    public class TestCaseBase : IDisposable
     {
         protected IWebDriver Driver;
 
         #region конструктор
-        public MyTestCaseBase()
+        public TestCaseBase()
         {
 
         }
         #endregion
 
         #region Set up Driver
-        public MyTestCaseBase SetupDriver(String value)
+        public TestCaseBase SetupDriver(String value)
         {
             var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"SeleniumDrivers");
             switch (value)
