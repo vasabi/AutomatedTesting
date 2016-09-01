@@ -11,19 +11,15 @@ namespace TestingTool
     #region атрибуты классов тесткейсов
     public class TestCaseIdentifierAttribute:Attribute
     {
-        public TestCaseIdentifierAttribute(String projectName, 
-            String testSuiteName, String testCaseName)
+        public TestCaseIdentifierAttribute(String testCaseName, String testCaseType)
         {
-            ProjectName = projectName;
-            TestSuiteName = testSuiteName;
             TestCaseName = testCaseName;
+            TestCaseType = testCaseType;
         }
 
-        public string ProjectName { get; set; }
-
-        public string TestSuiteName { get; set; }
-
         public string TestCaseName { get; set; }
+
+        public string TestCaseType { get; set; }
     }
     #endregion
 }

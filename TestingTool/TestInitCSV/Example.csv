@@ -1,9 +1,3 @@
-testPlatformName_1;testPlatformName_2;testPlatformName_3
-testProjectName_1;testPlanName_1;testSuiteName_1;testCaseName_1
-testProjectName_1;testPlanName_1;testSuiteName_1;testCaseName_2
-testProjectName_1;testPlanName_1;testSuiteName_1;testCaseName_3
-testProjectName_1;testPlanName_1;testSuiteName_2;testCaseName_1
-testProjectName_1;testPlanName_1;testSuiteName_3;testCaseName_1
-testProjectName_1;testPlanName_2;testSuiteName_1;testCaseName_5
-testProjectName_1;testPlanName_2;testSuiteName_2;testCaseName_3
-testProjectName_2;testPlanName_1;testSuiteName_1;testCaseName_1
+g;web
+testCaseName_1;testCaseType_1(web/desctop)
+testCaseName_2;testCaseType_2(web/desctop)

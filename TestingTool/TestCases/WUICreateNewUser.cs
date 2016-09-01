@@ -15,7 +15,7 @@ using OpenQA.Selenium.Support.UI;
 
 namespace TestingTool
 {
-    [TestCaseIdentifier("Avalanche-3", "Administration", "Create New User")] //атрибуты, считываемые из csv
+    [TestCaseIdentifier("Avalanche-3", "Administration")] //атрибуты, считываемые из csv
     public class WUICreateNewUser : TestCaseBase
     {
         #region Test execution

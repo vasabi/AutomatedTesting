@@ -17,11 +17,6 @@ namespace TestingTool
     {
         static void Main(string[] args)
         {
-            #region Чтение параметров подключения к testlink из конфига
-            String apiUrl = ConfigurationManager.AppSettings["testLinkUrl"];
-            String apiKey = ConfigurationManager.AppSettings["testLinkApiKey"];
-            #endregion
-
             //var asseblyPath = "";
             //var assembly = Assembly.LoadFile(asseblyPath);
             #region далее чтение конфигов тестов, запуск выполнения сценариев для каждой платформы
@@ -30,28 +25,20 @@ namespace TestingTool
             foreach (var file in files)
             {
                 String[] testCaseConfigs = File.ReadAllLines(file);
-                var platforms = testCaseConfigs[0].Split(';');
+                //String[] platforms = new String[] {"Google Chrome","Firefox","IE"};
+                String[] platforms = new String[] { "Google Chrome"};
 
-                if (testCaseConfigs.Length < 2)
+                foreach (var testCaseConfig in testCaseConfigs)
                 {
-                    Console.WriteLine("ERROR: CSV file is not valid");
-                    break;
-                }
-                for (int i = 1; i < testCaseConfigs.Length; i++)
-                {
-                    String testCaseConfig = testCaseConfigs[i];
                     String[] parameter = testCaseConfig.Split(';');
-                    var projectName = parameter[0];
-                    var testPlanName = parameter[1];
-                    var testSuitName = parameter[2];
-                    var testCaseName = parameter[3];
+                    var testCaseName = parameter[0];
+                    var testCaseType = parameter[1];
 
                     var caseType = assembly.GetTypes().FirstOrDefault(t =>
                     {
                         var attr = t.GetCustomAttribute<TestCaseIdentifierAttribute>();
                         if (attr != null)
-                            return attr.ProjectName == projectName && attr.TestSuiteName == testSuitName
-                                && attr.TestCaseName == testCaseName;
+                            return attr.TestCaseName == testCaseName && attr.TestCaseType == testCaseType;
                         return false;
                     });
 
@@ -63,26 +50,36 @@ namespace TestingTool
 
                     var caseObject = (TestCaseBase)Activator.CreateInstance(caseType);
 
-                    foreach (var platform in platforms)
+                    if (testCaseType == "web")
                     {
-                        var test = new TestLinkCaseWrapper(caseObject, apiKey, apiUrl, platform, projectName, testPlanName, testSuitName, testCaseName);
+                        foreach (var platform in platforms)
+                        {
+                            var test = new TestCaseWrapper(caseObject, testCaseName, testCaseType);
+                            try
+                            {
+                                using (test)
+                                {
+                                    test.SetPlatform(platform).Run();
+                                }
+                            }
+
+                            catch (Exception exception)
+                            {
+                                Console.WriteLine("EXCEPTION:" + exception.Message);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        var test = new TestCaseWrapper(caseObject, testCaseName, testCaseType);
                         try
                         {
                             using (test)
                             {
-                                test.SetPlatform(platform).Run();
+                                test.Run();
                             }
                         }
-                        catch (XmlRpcMissingUrl exception)
-                        {
-                            Console.WriteLine("ERROR:" + exception.Message);
-                            break;
-                        }
-                        catch (TestLinkException  exception)
-                        {
-                            Console.WriteLine("ERROR:" + exception.Message);
-                            break;
-                        }
+
                         catch (Exception exception)
                         {
                             Console.WriteLine("EXCEPTION:" + exception.Message);

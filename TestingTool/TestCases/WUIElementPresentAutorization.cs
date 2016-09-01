@@ -15,7 +15,7 @@ using OpenQA.Selenium.Support.UI;
 
 namespace TestingTool.TestCases
 {
-    [TestCaseIdentifier("Avalanche-3", "BasicTestGroup", "ElementPresent check Autorization page")] //атрибуты, считываемые из csv
+    [TestCaseIdentifier("Avalanche-3", "BasicTestGroup")] //атрибуты, считываемые из csv
     public class WUIElementPresentAutorization : TestCaseBase
     {
         #region Test execution
