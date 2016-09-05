@@ -174,8 +174,17 @@ namespace TestingTool
         #region FindElementByXPath
         public IWebElement FindElementByXPath(String value)
         {
-            IWebElement elementOnPage = Driver.FindElement(By.XPath(value));
-            return elementOnPage;
+            try
+            {
+                IWebElement elementOnPage = Driver.FindElement(By.XPath(value));
+                return elementOnPage;
+            }
+            catch (UnhandledAlertException e)
+            {
+                Console.WriteLine(e.Message);
+                Driver.SwitchTo().Alert().Dismiss();
+                return null;
+            }
         }
         #endregion
 
@@ -191,6 +200,14 @@ namespace TestingTool
         public IWebElement FindElementByLinkText(String value)
         {
             IWebElement elementOnPage = Driver.FindElement(By.LinkText(value));
+            return elementOnPage;
+        }
+        #endregion
+
+        #region FindElementByCssSelector
+        public IWebElement FindElementByCssSelector(String value)
+        {
+            IWebElement elementOnPage = Driver.FindElement(By.CssSelector(value));
             return elementOnPage;
         }
         #endregion

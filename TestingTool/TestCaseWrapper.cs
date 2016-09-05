@@ -33,6 +33,7 @@ namespace TestingTool
         public void Run()
         {
             var result = _wrappedTestCase.RunTest();
+            Console.WriteLine(String.Format("Result: {0}. Message: {1}", result.Status, result.Message));
         }
         #endregion
 
