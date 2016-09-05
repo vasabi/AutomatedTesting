@@ -204,6 +204,21 @@ namespace TestingTool
         }
         #endregion
 
+        #region IsElementPresentByXPath
+        public Boolean IsElementPresentByXPath(String value)
+        {
+            try
+            {
+                Driver.FindElement(By.XPath(value));
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
+        }
+        #endregion
+
         #region запуск теста
         public virtual TestResult RunTest()
         {

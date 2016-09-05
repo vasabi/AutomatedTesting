@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph GraphDirection="LeftToRight" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="TestingTool" Label="TestingTool" Category="Проект" />
+    <Node Id="Fayu.Qa.Selenium.Framework 2.0.2" Label="Fayu.Qa.Selenium.Framework 2.0.2" Category="Пакет" />
+    <Node Id="FluentAssertions 2.2.0.0" Label="FluentAssertions 2.2.0.0" Category="Пакет" />
+    <Node Id="Gallio 3.3.1" Label="Gallio 3.3.1" Category="Пакет" />
+    <Node Id="Newtonsoft.Json 6.0.8" Label="Newtonsoft.Json 6.0.8" Category="Пакет" />
+    <Node Id="NUnit 3.2.0" Label="NUnit 3.2.0" Category="Пакет" />
+    <Node Id="Selenium.Automation.Framework 0.0.1.2" Label="Selenium.Automation.Framework 0.0.1.2" Category="Пакет" />
+    <Node Id="Selenium.RC 2.53.1" Label="Selenium.RC 2.53.1" Category="Пакет" />
+    <Node Id="Selenium.Support 2.52.0" Label="Selenium.Support 2.52.0" Category="Пакет" />
+    <Node Id="Selenium.WebDriver 2.53.1" Label="Selenium.WebDriver 2.53.1" Category="Пакет" />
+    <Node Id="Selenium.WebDriverBackedSelenium 2.53.1" Label="Selenium.WebDriverBackedSelenium 2.53.1" Category="Пакет" />
+    <Node Id="TestLinkFixture 1.0.0.0" Label="TestLinkFixture 1.0.0.0" Category="Пакет" />
+    <Node Id="TlNUnitAddOn 1.0.0.0" Label="TlNUnitAddOn 1.0.0.0" Category="Пакет" />
+    <Node Id="xmlrpcnet 3.0.0.266" Label="xmlrpcnet 3.0.0.266" Category="Пакет" />
+  </Nodes>
+  <Links>
+    <Link Source="Fayu.Qa.Selenium.Framework 2.0.2" Target="Selenium.WebDriver 2.53.1" Category="Зависимость пакета" />
+    <Link Source="Fayu.Qa.Selenium.Framework 2.0.2" Target="Newtonsoft.Json 6.0.8" Category="Зависимость пакета" />
+    <Link Source="Selenium.Automation.Framework 0.0.1.2" Target="FluentAssertions 2.2.0.0" Category="Зависимость пакета" />
+    <Link Source="Selenium.Automation.Framework 0.0.1.2" Target="Newtonsoft.Json 6.0.8" Category="Зависимость пакета" />
+    <Link Source="Selenium.Automation.Framework 0.0.1.2" Target="Selenium.WebDriver 2.53.1" Category="Зависимость пакета" />
+    <Link Source="Selenium.Support 2.52.0" Target="Selenium.WebDriver 2.53.1" Category="Зависимость пакета" />
+    <Link Source="Selenium.WebDriverBackedSelenium 2.53.1" Target="Selenium.WebDriver 2.53.1" Category="Зависимость пакета" />
+    <Link Source="Selenium.WebDriverBackedSelenium 2.53.1" Target="Selenium.RC 2.53.1" Category="Зависимость пакета" />
+    <Link Source="TlNUnitAddOn 1.0.0.0" Target="xmlrpcnet 3.0.0.266" Category="Зависимость пакета" />
+    <Link Source="TlNUnitAddOn 1.0.0.0" Target="TestLinkFixture 1.0.0.0" Category="Зависимость пакета" />
+    <Link Source="TlNUnitAddOn 1.0.0.0" Target="NUnit 3.2.0" Category="Зависимость пакета" />
+    <Link Source="TestingTool" Target="Fayu.Qa.Selenium.Framework 2.0.2" Category="Установленный пакет" />
+    <Link Source="TestingTool" Target="Gallio 3.3.1" Category="Установленный пакет" />
+    <Link Source="TestingTool" Target="Selenium.Automation.Framework 0.0.1.2" Category="Установленный пакет" />
+    <Link Source="TestingTool" Target="Selenium.Support 2.52.0" Category="Установленный пакет" />
+    <Link Source="TestingTool" Target="Selenium.WebDriverBackedSelenium 2.53.1" Category="Установленный пакет" />
+    <Link Source="TestingTool" Target="TlNUnitAddOn 1.0.0.0" Category="Установленный пакет" />
+  </Links>
+  <Categories>
+    <Category Id="Проект" />
+    <Category Id="Пакет" />
+  </Categories>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="Проект" ValueLabel="True">
+      <Condition Expression="HasCategory('Проект')" />
+      <Setter Property="Background" Value="Blue" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Зависимость пакета" ValueLabel="True">
+      <Condition Expression="HasCategory('Зависимость пакета')" />
+      <Setter Property="Background" Value="Yellow" />
+    </Style>
+  </Styles>
+</DirectedGraph>
