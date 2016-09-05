@@ -17,19 +17,19 @@ using System.Reflection;
 
 namespace TestingTool
 {
-    public class TestCaseBase : IDisposable
+    public class TestCaseBaseWeb : IDisposable
     {
         protected IWebDriver Driver;
 
         #region конструктор
-        public TestCaseBase()
+        public TestCaseBaseWeb()
         {
 
         }
         #endregion
 
         #region Set up Driver
-        public TestCaseBase SetupDriver(String value)
+        public TestCaseBaseWeb SetupDriver(String value)
         {
             var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"SeleniumDrivers");
             switch (value)
@@ -237,7 +237,7 @@ namespace TestingTool
         #endregion
 
         #region запуск теста
-        public virtual TestResult RunTest()
+        public virtual TestResult RunTestWeb()
         {
             return TestResult.Fail("Run test not realized");
         }

@@ -22,16 +22,15 @@ using Selenium.Automation.Framework.Factories;
 using Selenium.Internal.SeleniumEmulation;
 using System.Text.RegularExpressions;
 using Selenium.Automation;
-using System.Windows.Forms;
 #endregion
 
 namespace TestingTool
 {
     [TestCaseIdentifier("SCW", "web")] //атрибуты, считываемые из csv в папке TestInitCSV
-    public class SolarSecWeb : TestCaseBase
+    public class SolarSecWeb : TestCaseBaseWeb
     {
         #region Test execution
-        public override TestResult RunTest()
+        public override TestResult RunTestWeb()
         {
             string urlMail = "https://mail.ru/";
             string urlYa = "https://mail.yandex.ru";

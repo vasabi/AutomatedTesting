@@ -7,8 +7,11 @@ using System.Threading.Tasks;
 using System.Configuration;
 using System.Reflection;
 using System.IO;
-using Meyn.TestLink;
-using CookComputing.XmlRpc;
+using Microsoft.Office.Core;
+using Microsoft.Office.Interop.Word;
+using Microsoft;
+using Microsoft.Office;
+using Microsoft.Office.Interop;
 #endregion
 
 namespace TestingTool
@@ -47,14 +50,13 @@ namespace TestingTool
                         Console.WriteLine("There are no classes to run test with name: " + testCaseName +" or csv file is invalid");
                         break;
                     }
-
-                    var caseObject = (TestCaseBase)Activator.CreateInstance(caseType);
-
+                    
                     if (testCaseType == "web")
                     {
+                        var caseObject = (TestCaseBaseWeb)Activator.CreateInstance(caseType);
                         foreach (var platform in platforms)
                         {
-                            var test = new TestCaseWrapper(caseObject, testCaseName, testCaseType);
+                            var test = new TestCaseWrapperWeb(caseObject, testCaseName, testCaseType);
                             try
                             {
                                 using (test)
@@ -71,10 +73,10 @@ namespace TestingTool
                     }
                     else
                     {
-                        var test = new TestCaseWrapper(caseObject, testCaseName, testCaseType);
+                        var caseObject = (TestCaseBaseDesctop)Activator.CreateInstance(caseType);
+                        var test = new TestCaseWrapperDesctop(caseObject, testCaseName, testCaseType);
                         try
                         {
-                            using (test)
                             {
                                 test.Run();
                             }
