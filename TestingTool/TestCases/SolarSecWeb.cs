@@ -131,14 +131,14 @@ namespace TestingTool
                 }
                 Console.WriteLine(urlYa + " - ok");
                 File.AppendAllText(outFilePath, urlYa + ";" + stateYa + ";" + "" + Environment.NewLine);
-                return TestResult.Success("Test successfully completed");
+                return TestResult.Success("Test SCW successfully completed");
             }
             catch
             {
                 stateYa = '-';
                 Console.WriteLine(urlYa + " - fail");
                 File.AppendAllText(outFilePath, urlYa + ";" + stateYa + ";" + "" + Environment.NewLine);
-                return TestResult.Fail("Test failed");
+                return TestResult.Fail("Test SCW failed");
             }
             finally
             {

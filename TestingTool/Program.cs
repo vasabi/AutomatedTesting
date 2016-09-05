@@ -88,6 +88,7 @@ namespace TestingTool
                         }
                     }
                 }
+                GC.Collect();
             }
             #endregion
 
