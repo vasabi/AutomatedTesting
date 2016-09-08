@@ -43,10 +43,10 @@ namespace TestingTool
                     printResult = "successed";
                 }
                 watch.Stop();
-                File.WriteAllText(directory + "\\" + "log.txt", "File printing was " + printResult + ". Elapsed teme = " + watch.ElapsedMilliseconds + "ms");
+                File.WriteAllText(directory + "\\" + "log.txt", "File printing was " + printResult + ". Elapsed time = " + watch.ElapsedMilliseconds + "ms");
                 wordApp.DisplayAlerts = Word.WdAlertLevel.wdAlertsNone;
-                wordApp.ActiveDocument.Close();
-                wordApp.Quit();
+                wordApp.ActiveDocument.Close(true);
+                wordApp.Quit(true);
                 if (wordDoc != null)
                     System.Runtime.InteropServices.Marshal.ReleaseComObject(wordDoc);
                 if (wordApp != null)
@@ -55,9 +55,9 @@ namespace TestingTool
                 wordApp = null;
                 return TestResult.Success("Test SSMSW successfully completed");
             }
-            catch 
+            catch (Exception e)
             {
-                return TestResult.Fail("Test SSMSW failed");
+                return TestResult.Fail("Test SSMSW failed: " + e.Message );
             }
         }
         #endregion

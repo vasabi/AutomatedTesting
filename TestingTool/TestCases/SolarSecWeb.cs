@@ -84,6 +84,7 @@ namespace TestingTool
                 stateMail = '-';
                 Console.WriteLine(urlMail + " - fail");
                 File.AppendAllText(outFilePath, urlMail + ";" + stateMail + ";" + "" + Environment.NewLine);
+                throw;
             }
             try
             {
@@ -133,12 +134,12 @@ namespace TestingTool
                 File.AppendAllText(outFilePath, urlYa + ";" + stateYa + ";" + "" + Environment.NewLine);
                 return TestResult.Success("Test SCW successfully completed");
             }
-            catch
+            catch (Exception e)
             {
                 stateYa = '-';
                 Console.WriteLine(urlYa + " - fail");
                 File.AppendAllText(outFilePath, urlYa + ";" + stateYa + ";" + "" + Environment.NewLine);
-                return TestResult.Fail("Test SCW failed");
+                return TestResult.Fail("Test SCW failed: " + e.Message);
             }
             finally
             {
