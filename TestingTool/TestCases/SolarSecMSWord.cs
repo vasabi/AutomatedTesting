@@ -23,12 +23,13 @@ namespace TestingTool
         #region Test execution
         public override TestResult RunTestDesctop()
         {
+            var watch = new Stopwatch();
+            var directory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Doc");
+            String printResult;
             try
             {
-                var watch = new Stopwatch();
-                var directory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Doc");
+
                 var wordApp = new Word.Application();
-                String printResult;
                 //            wordApp.Visible = true;
                 var wordDoc = wordApp.Documents.Open(directory + "\\" + "test.docx");
                 watch.Reset();
@@ -37,13 +38,8 @@ namespace TestingTool
                 wordDoc.PageSetup.Orientation = Word.WdOrientation.wdOrientLandscape;
                 wordDoc.PrintOut(Background: true, Range: Word.WdPrintOutRange.wdPrintRangeOfPages, Pages: "2,4-6", Append: false, OutputFileName: directory + "\\" + "out.oxps", PrintToFile: true, PrintZoomRow: 1, PrintZoomColumn: 2);
                 wordDoc.PageSetup.Orientation = Word.WdOrientation.wdOrientPortrait;
-                printResult = "failed";
-                if (wordApp.BackgroundPrintingStatus == 1)
-                {
-                    printResult = "successed";
-                }
                 watch.Stop();
-                File.WriteAllText(directory + "\\" + "log.txt", "File printing was " + printResult + ". Elapsed time = " + watch.ElapsedMilliseconds + "ms");
+                printResult = "successed";
                 wordApp.DisplayAlerts = Word.WdAlertLevel.wdAlertsNone;
                 wordApp.ActiveDocument.Close(true);
                 wordApp.Quit(true);
@@ -53,11 +49,14 @@ namespace TestingTool
                     System.Runtime.InteropServices.Marshal.ReleaseComObject(wordApp);
                 wordDoc = null;
                 wordApp = null;
+                File.WriteAllText(directory + "\\" + "log.txt", "File printing was " + printResult + ". Elapsed time = " + watch.ElapsedMilliseconds + "ms");
                 return TestResult.Success("Test SSMSW successfully completed");
             }
             catch (Exception e)
             {
-                return TestResult.Fail("Test SSMSW failed: " + e.Message );
+                printResult = "failed";
+                File.WriteAllText(directory + "\\" + "log.txt", "File printing was " + printResult + ". Elapsed time = " + watch.ElapsedMilliseconds + "ms");
+                return TestResult.Fail("Test SSMSW failed: " + e.Message);
             }
         }
         #endregion
